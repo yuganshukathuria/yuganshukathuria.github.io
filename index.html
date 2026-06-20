@@ -1,37 +1,240 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Yuganshu Kathuria</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yuganshu Kathuria</title>
+  <meta name="description" content="Yuganshu Kathuria — Data, Transformation & AI. Large-scale programs across banking and capital markets in Europe.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f9f8f6;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b67;
+      --text-tertiary: #a0a09b;
+      --border: rgba(26, 26, 24, 0.1);
+      --border-hover: rgba(26, 26, 24, 0.25);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    nav {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-      color: #222;
+      padding: 36px 0 24px;
+      border-bottom: 0.5px solid var(--border);
     }
 
-    h1 {
-      font-size: 3rem;
-      font-weight: 300;
-      margin: 0;
+    .nav-mark {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
     }
 
-    p {
-      color: #666;
-      margin-top: 12px;
+    .nav-location {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 0 64px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 28px;
+    }
+
+    .hero-name {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(44px, 7vw, 72px);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 36px;
+    }
+
+    .hero-rule {
+      width: 28px;
+      height: 0.5px;
+      background: var(--text-tertiary);
+      margin-bottom: 32px;
+    }
+
+    .hero-bio {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(17px, 2.2vw, 20px);
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 520px;
+      font-weight: 400;
+    }
+
+    .hero-bio em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      padding: 9px 16px;
+      transition: border-color 0.2s, color 0.2s;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 0 24px; }
+      nav { padding-top: 28px; }
+      .hero { padding: 56px 0 48px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-eyebrow, .hero-name, .hero-rule, .hero-bio, footer {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: rise 0.6s ease forwards;
+      }
+      .hero-eyebrow { animation-delay: 0.05s; }
+      .hero-name    { animation-delay: 0.12s; }
+      .hero-rule    { animation-delay: 0.20s; }
+      .hero-bio     { animation-delay: 0.26s; }
+      footer        { animation-delay: 0.34s; }
+
+      @keyframes rise {
+        to { opacity: 1; transform: translateY(0); }
+      }
     }
   </style>
 </head>
 <body>
-  <div>
-    <h1>Yuganshu Kathuria</h1>
-    <p>Website coming soon.</p>
+  <div class="page">
+
+    <nav>
+      <span class="nav-mark">Yuganshu Kathuria</span>
+      <span class="nav-location">Frankfurt, Germany</span>
+    </nav>
+
+    <main class="hero">
+      <p class="hero-eyebrow">Data &middot; Transformation &middot; AI</p>
+      <h1 class="hero-name">Yuganshu<br>Kathuria</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-bio">
+        The financial services industry is at an inflection point.
+        <em>AI's promise is real</em> — but it runs on data foundations
+        that most institutions haven't built yet.<br><br>
+        I work on exactly that. Large-scale transformation programs
+        across banking and capital markets in Europe.
+      </p>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a class="btn" href="https://linkedin.com/in/yuganshu" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a class="btn" href="mailto:yuganshu@yuganshukathuria.com">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Get in touch
+        </a>
+      </div>
+      <span class="footer-copy">yuganshukathuria.com</span>
+    </footer>
+
   </div>
 </body>
 </html>
