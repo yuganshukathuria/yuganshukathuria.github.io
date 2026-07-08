@@ -1,0 +1,27 @@
+{
+  "name": "Yuganshu Kathuria",
+  "short_name": "YK",
+  "description": "Yuganshu Kathuria is a technology and transformation leader based in Frankfurt, advising financial institutions on data, AI, cloud and enterprise architecture.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b1f3a",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}

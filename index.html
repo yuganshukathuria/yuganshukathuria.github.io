@@ -1,239 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yuganshu Kathuria</title>
-  <meta name="description" content="Yuganshu Kathuria — Data, Transformation & AI. Large-scale programs across banking and capital markets in Europe.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #f9f8f6;
-      --text-primary: #1a1a18;
-      --text-secondary: #6b6b67;
-      --text-tertiary: #a0a09b;
-      --border: rgba(26, 26, 24, 0.1);
-      --border-hover: rgba(26, 26, 24, 0.25);
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text-primary);
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-weight: 400;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 36px 0 24px;
-      border-bottom: 0.5px solid var(--border);
-    }
-
-    .nav-mark {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--text-primary);
-      letter-spacing: 0.01em;
-    }
-
-    .nav-location {
-      font-size: 12px;
-      color: var(--text-tertiary);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 0 64px;
-    }
-
-    .hero-eyebrow {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-bottom: 28px;
-    }
-
-    .hero-name {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: clamp(44px, 7vw, 72px);
-      font-weight: 400;
-      line-height: 1.05;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-      margin-bottom: 36px;
-    }
-
-    .hero-rule {
-      width: 28px;
-      height: 0.5px;
-      background: var(--text-tertiary);
-      margin-bottom: 32px;
-    }
-
-    .hero-bio {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: clamp(17px, 2.2vw, 20px);
-      line-height: 1.75;
-      color: var(--text-secondary);
-      max-width: 520px;
-      font-weight: 400;
-    }
-
-    .hero-bio em {
-      font-style: italic;
-      color: var(--text-primary);
-    }
-
-    footer {
-      padding: 28px 0 40px;
-      border-top: 0.5px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 12px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-      color: var(--text-secondary);
-      text-decoration: none;
-      border: 0.5px solid var(--border);
-      border-radius: 4px;
-      padding: 9px 16px;
-      transition: border-color 0.2s, color 0.2s;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      border-color: var(--border-hover);
-      color: var(--text-primary);
-    }
-
-    .btn svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .footer-copy {
-      font-size: 11px;
-      color: var(--text-tertiary);
-      letter-spacing: 0.04em;
-    }
-
-    @media (max-width: 600px) {
-      .page { padding: 0 24px; }
-      nav { padding-top: 28px; }
-      .hero { padding: 56px 0 48px; }
-      footer { flex-direction: column; align-items: flex-start; }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .hero-eyebrow, .hero-name, .hero-rule, .hero-bio, footer {
-        opacity: 0;
-        transform: translateY(12px);
-        animation: rise 0.6s ease forwards;
-      }
-      .hero-eyebrow { animation-delay: 0.05s; }
-      .hero-name    { animation-delay: 0.12s; }
-      .hero-rule    { animation-delay: 0.20s; }
-      .hero-bio     { animation-delay: 0.26s; }
-      footer        { animation-delay: 0.34s; }
-
-      @keyframes rise {
-        to { opacity: 1; transform: translateY(0); }
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yuganshu Kathuria — Technology &amp; Transformation Leader</title>
+<meta name="description" content="Yuganshu Kathuria is a technology and transformation leader based in Frankfurt, advising financial institutions on data, AI, cloud and enterprise architecture.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Yuganshu Kathuria">
+<link rel="canonical" href="https://www.yuganshukathuria.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Yuganshu Kathuria">
+<meta property="og:title" content="Yuganshu Kathuria — Technology &amp; Transformation Leader">
+<meta property="og:description" content="Yuganshu Kathuria is a technology and transformation leader based in Frankfurt, advising financial institutions on data, AI, cloud and enterprise architecture.">
+<meta property="og:url" content="https://www.yuganshukathuria.com/">
+<meta property="og:image" content="https://www.yuganshukathuria.com/assets/og-image.png">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yuganshu Kathuria — Technology &amp; Transformation Leader">
+<meta name="twitter:description" content="Yuganshu Kathuria is a technology and transformation leader based in Frankfurt, advising financial institutions on data, AI, cloud and enterprise architecture.">
+<meta name="twitter:image" content="https://www.yuganshukathuria.com/assets/og-image.png">
+<meta name="theme-color" content="#0b1f3a">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Yuganshu Kathuria — Perspectives" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<script>(function(){try{var m=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',m?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Yuganshu Kathuria", "jobTitle": "Technology & Transformation Leader", "description": "Yuganshu Kathuria is a technology and transformation leader based in Frankfurt, advising financial institutions on data, AI, cloud and enterprise architecture.", "url": "https://www.yuganshukathuria.com/", "address": {"@type": "PostalAddress", "addressLocality": "Frankfurt", "addressRegion": "Hesse", "addressCountry": "DE"}, "email": "mailto:contact@yuganshukathuria.com", "knowsAbout": ["Data & AI transformation", "Enterprise data platforms", "Cloud transformation", "Enterprise architecture", "Capital markets", "Technology strategy", "Technology delivery"], "sameAs": ["https://www.linkedin.com/in/yuganshukathuria"], "alumniOf": {"@type": "CollegeOrUniversity", "name": "Frankfurt School of Finance & Management"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Yuganshu Kathuria", "url": "https://www.yuganshukathuria.com/", "inLanguage": "en-GB", "potentialAction": {"@type": "SearchAction", "target": "https://www.yuganshukathuria.com/search.html?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
 </head>
 <body>
-  <div class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap"><nav class="nav" aria-label="Primary">
+<a class="brand" href="/index.html"><span class="mono" aria-hidden="true">YK</span><span>Yuganshu Kathuria</span></a>
+<div class="nav-links" id="nav-links"><a href="/index.html" aria-current="page">Home</a><a href="/about.html">About</a><a href="/perspectives.html">Perspectives</a><a href="/experience.html">Experience</a><a href="/speaking.html">Speaking</a><a href="/reading.html">Reading</a><a href="/contact.html">Contact</a></div>
+<div class="nav-actions">
+<a class="icon-btn" href="/search.html" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg></a>
+<button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+<button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-controls="nav-links" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></nav></div></header>
+<main id="main">
+<section class="hero"><div class="wrap">
+<span class="eyebrow">Frankfurt · Financial Services · Technology Transformation</span>
+<h1>Turning enterprise technology into measurable business value.</h1>
+<p class="lead">I help financial institutions lead complex technology transformation — across data, AI, cloud and enterprise architecture — with the clarity, discipline and judgement that senior decisions require.</p>
+<div class="hero-cta">
+<a class="btn btn-primary" href="/perspectives.html">Read perspectives <svg class="a" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<a class="btn btn-ghost" href="/contact.html">Start a conversation</a></div>
+<div class="hero-facts"><div class="hero-fact"><div class="n">10+ years</div><div class="l">in financial services technology</div></div><div class="hero-fact"><div class="n">Data · AI · Cloud</div><div class="l">enterprise transformation</div></div><div class="hero-fact"><div class="n">Frankfurt</div><div class="l">European capital markets</div></div></div>
+</div></section>
 
-    <nav>
-      <span class="nav-mark">Yuganshu Kathuria</span>
-      <span class="nav-location">Frankfurt, Germany</span>
-    </nav>
+<section class="section"><div class="wrap"><div class="prose reveal">
+<span class="eyebrow">Mission</span>
+<h2 style="font-size:clamp(1.7rem,3.2vw,2.4rem);max-width:20ch">Technology should earn its place in the business.</h2>
+<p class="lead" style="margin-top:1.3rem;max-width:46rem">For more than a decade I have worked alongside financial institutions as they modernise the systems that run their business. My work sits where technology strategy meets delivery: helping leaders decide what to build, why it matters, and how to see it through. The measure of good technology work is not its sophistication. It is whether the organisation can serve its clients better, manage risk more confidently, and make decisions with data it trusts.</p>
+</div></div></section>
 
-    <main class="hero">
-      <p class="hero-eyebrow">Data &middot; Transformation &middot; AI</p>
-      <h1 class="hero-name">Yuganshu<br>Kathuria</h1>
-      <div class="hero-rule"></div>
-      <p class="hero-bio">
-        The financial services industry is at an inflection point.
-        <em>AI's promise is real</em> — but it runs on data foundations
-        that most institutions haven't built yet.<br><br>
-        That is the work.
-      </p>
-    </main>
+<section class="section"><div class="wrap"><div class="section-head reveal"><span class="eyebrow">Current focus</span><h2>Where my attention sits today</h2></div><div class="grid grid-2"><div class="card reveal"><h3>Data &amp; AI transformation</h3><p>Helping institutions move from experimentation to dependable, governed use of data and AI in day-to-day operations.</p></div><div class="card reveal"><h3>Enterprise data platforms</h3><p>Designing platforms that treat data as a durable asset — discoverable, trustworthy and reusable across the organisation.</p></div><div class="card reveal"><h3>Making AI measurable</h3><p>Connecting AI investment to outcomes leaders can defend: cost, risk, speed and the quality of decisions.</p></div><div class="card reveal"><h3>Cloud &amp; enterprise architecture</h3><p>Modernising core platforms in ways that reduce complexity rather than relocate it.</p></div></div></div></section>
 
-    <footer>
-      <div class="footer-links">
-        <a class="btn" href="https://www.linkedin.com/in/yuganshu-kathuria-b8aaaa55/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
-            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-          </svg>
-          LinkedIn
-        </a>
-        <a class="btn" href="mailto:yuganshu@yuganshukathuria.com">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          Contact
-        </a>
-      </div>
-      <span class="footer-copy">yuganshukathuria.com</span>
-    </footer>
+<section class="section"><div class="wrap"><div class="section-head reveal"><span class="eyebrow">Leadership philosophy</span><h2>How I approach the work</h2></div><div class="grid grid-3"><div class="card card--plain reveal"><h3>Outcomes before activity</h3><p>Programmes are judged by what changes for the business, not by how much is delivered. I keep that distinction visible from the first conversation to the last.</p></div><div class="card card--plain reveal"><h3>Clarity before scale</h3><p>Most transformation fails quietly, in ambiguity. I invest early in a clear problem, a clear owner and a clear definition of done.</p></div><div class="card card--plain reveal"><h3>Technology in service of the business</h3><p>The best architecture is the one the organisation can operate, fund and understand. Elegance that no one can run is a liability.</p></div></div></div></section>
 
-  </div>
+<section class="section"><div class="wrap"><div class="section-head reveal"><span class="eyebrow">Selected perspectives</span><h2>A few pieces worth your time</h2></div>
+<div class="grid grid-3"><article class="article-card reveal"><a class="cover" href="/perspectives/why-enterprise-ai-needs-better-governance.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <circle cx="600" cy="250" r="150" fill="none" stroke="rgba(255,255,255,.16)"/>
+      <circle cx="600" cy="250" r="105" fill="none" stroke="rgba(255,255,255,.24)"/>
+      <circle cx="600" cy="250" r="60"  fill="none" stroke="rgba(140,178,224,.85)"/>
+      <line x1="120" y1="250" x2="600" y2="250" stroke="rgba(255,255,255,.14)"/>
+      <circle cx="120" cy="250" r="6" fill="rgba(140,178,224,.95)"/>
+      <circle cx="290" cy="180" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="360" cy="330" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="600" cy="250" r="7" fill="#fff"/></svg></a><div><span class="tag">Data &amp; AI</span><h3><a href="/perspectives/why-enterprise-ai-needs-better-governance.html">Why Enterprise AI Needs Better Governance</a></h3><p class="meta"><span>10 February 2026</span><span class="dot"></span><span>6 min read</span></p><p>Enterprise AI does not fail because the models are weak. It fails because organisations deploy them faster than they can govern them. Governance is the enabler, not the brake.</p></div></article><article class="article-card reveal"><a class="cover" href="/perspectives/cloud-transformation-in-financial-services.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <g fill="none" stroke="rgba(255,255,255,.20)">
+        <rect x="230" y="120" width="360" height="70" rx="10"/>
+        <rect x="200" y="215" width="420" height="70" rx="10"/>
+      </g>
+      <rect x="170" y="310" width="480" height="70" rx="10" fill="none" stroke="rgba(140,178,224,.9)"/>
+      <line x1="410" y1="190" x2="410" y2="215" stroke="rgba(255,255,255,.30)"/>
+      <line x1="410" y1="285" x2="410" y2="310" stroke="rgba(255,255,255,.30)"/></svg></a><div><span class="tag">Cloud &amp; Architecture</span><h3><a href="/perspectives/cloud-transformation-in-financial-services.html">Cloud Transformation in Financial Services</a></h3><p class="meta"><span>11 September 2025</span><span class="dot"></span><span>6 min read</span></p><p>Cloud in financial services is rarely a technology problem and almost always an organisational one. The institutions that succeed treat it as a change in how they operate, not just where they run.</p></div></article><article class="article-card reveal"><a class="cover" href="/perspectives/the-operating-model-is-the-strategy.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <circle cx="330" cy="250" r="120" fill="none" stroke="rgba(255,255,255,.20)"/>
+      <circle cx="470" cy="250" r="120" fill="none" stroke="rgba(140,178,224,.9)"/>
+      <g stroke="rgba(255,255,255,.28)">
+        <line x1="150" y1="410" x2="650" y2="410"/>
+        <line x1="210" y1="398" x2="210" y2="422"/>
+        <line x1="330" y1="398" x2="330" y2="422"/>
+        <line x1="450" y1="398" x2="450" y2="422"/>
+        <line x1="570" y1="398" x2="570" y2="422"/>
+      </g></svg></a><div><span class="tag">Delivery &amp; Operating Models</span><h3><a href="/perspectives/the-operating-model-is-the-strategy.html">The Operating Model Is the Strategy</a></h3><p class="meta"><span>5 June 2025</span><span class="dot"></span><span>5 min read</span></p><p>Strategy documents describe intent. Operating models decide what actually happens. When the two disagree, the operating model wins — every time.</p></div></article></div>
+<p style="margin-top:2rem"><a class="btn-arrow" href="/perspectives.html">Read all perspectives <svg class="a" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div></section>
+
+<section class="section"><div class="wrap"><div class="section-head reveal"><span class="eyebrow">Areas of expertise</span><h2>What I bring to senior technology decisions</h2></div><div class="grid grid-3"><div class="card reveal"><h3>Data &amp; AI</h3><ul class="check-list" style="margin-top:1.1rem"><li>Data &amp; AI transformation</li><li>Enterprise data platforms</li><li>Data products</li><li>AI governance &amp; measurement</li></ul></div><div class="card reveal"><h3>Technology strategy &amp; architecture</h3><ul class="check-list" style="margin-top:1.1rem"><li>Technology strategy</li><li>Enterprise architecture</li><li>Cloud transformation</li><li>Technology delivery</li></ul></div><div class="card reveal"><h3>Financial services</h3><ul class="check-list" style="margin-top:1.1rem"><li>Capital markets</li><li>Regulated environments</li><li>Operating models</li><li>Digital transformation</li></ul></div></div></div></section>
+
+<section class="section"><div class="wrap"><div class="panel reveal">
+<span class="eyebrow">Speaking &amp; advisory</span>
+<h2 style="font-size:clamp(1.5rem,2.6vw,2rem);max-width:22ch">Conversations with senior teams</h2>
+<p style="margin-top:.85rem;max-width:44rem">I work with leadership teams through executive briefings, working sessions and workshops — helping them frame decisions on data, AI and transformation and align around a path forward.</p>
+<p style="margin-top:1.3rem"><a class="btn-arrow" href="/speaking.html">See how I work with teams <svg class="a" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div></div></section>
+
+<section class="section"><div class="wrap"><div class="section-head reveal"><span class="eyebrow">Latest writing</span><h2>Recent perspectives</h2></div><div class="grid grid-3"><article class="article-card reveal"><a class="cover" href="/perspectives/why-enterprise-ai-needs-better-governance.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <circle cx="600" cy="250" r="150" fill="none" stroke="rgba(255,255,255,.16)"/>
+      <circle cx="600" cy="250" r="105" fill="none" stroke="rgba(255,255,255,.24)"/>
+      <circle cx="600" cy="250" r="60"  fill="none" stroke="rgba(140,178,224,.85)"/>
+      <line x1="120" y1="250" x2="600" y2="250" stroke="rgba(255,255,255,.14)"/>
+      <circle cx="120" cy="250" r="6" fill="rgba(140,178,224,.95)"/>
+      <circle cx="290" cy="180" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="360" cy="330" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="600" cy="250" r="7" fill="#fff"/></svg></a><div><span class="tag">Data &amp; AI</span><h3><a href="/perspectives/why-enterprise-ai-needs-better-governance.html">Why Enterprise AI Needs Better Governance</a></h3><p class="meta"><span>10 February 2026</span><span class="dot"></span><span>6 min read</span></p><p>Enterprise AI does not fail because the models are weak. It fails because organisations deploy them faster than they can govern them. Governance is the enabler, not the brake.</p></div></article><article class="article-card reveal"><a class="cover" href="/perspectives/data-products-beyond-the-buzzword.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <circle cx="600" cy="250" r="150" fill="none" stroke="rgba(255,255,255,.16)"/>
+      <circle cx="600" cy="250" r="105" fill="none" stroke="rgba(255,255,255,.24)"/>
+      <circle cx="600" cy="250" r="60"  fill="none" stroke="rgba(140,178,224,.85)"/>
+      <line x1="120" y1="250" x2="600" y2="250" stroke="rgba(255,255,255,.14)"/>
+      <circle cx="120" cy="250" r="6" fill="rgba(140,178,224,.95)"/>
+      <circle cx="290" cy="180" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="360" cy="330" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="600" cy="250" r="7" fill="#fff"/></svg></a><div><span class="tag">Data &amp; AI</span><h3><a href="/perspectives/data-products-beyond-the-buzzword.html">Data Products Beyond the Buzzword</a></h3><p class="meta"><span>14 January 2026</span><span class="dot"></span><span>5 min read</span></p><p>The label ‘data product’ has become fashionable. The idea underneath it is sound — and demanding. It asks teams to treat data with the same rigour they would any product people depend on.</p></div></article><article class="article-card reveal"><a class="cover" href="/perspectives/making-ai-measurable.html" aria-hidden="true" tabindex="-1"><svg class="cover-art " viewBox="0 0 760 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1f3a"/><stop offset="1" stop-color="#12315a"/></linearGradient></defs><rect width="760" height="500" fill="url(#cg)"/><rect width="760" height="500" fill="none"/>
+      <circle cx="600" cy="250" r="150" fill="none" stroke="rgba(255,255,255,.16)"/>
+      <circle cx="600" cy="250" r="105" fill="none" stroke="rgba(255,255,255,.24)"/>
+      <circle cx="600" cy="250" r="60"  fill="none" stroke="rgba(140,178,224,.85)"/>
+      <line x1="120" y1="250" x2="600" y2="250" stroke="rgba(255,255,255,.14)"/>
+      <circle cx="120" cy="250" r="6" fill="rgba(140,178,224,.95)"/>
+      <circle cx="290" cy="180" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="360" cy="330" r="5" fill="rgba(255,255,255,.55)"/>
+      <circle cx="600" cy="250" r="7" fill="#fff"/></svg></a><div><span class="tag">Data &amp; AI</span><h3><a href="/perspectives/making-ai-measurable.html">Making AI Measurable</a></h3><p class="meta"><span>2 December 2025</span><span class="dot"></span><span>6 min read</span></p><p>The question every board eventually asks about AI is the hardest one to answer well: what did it change? Measuring AI honestly is less about dashboards and more about deciding what counts.</p></div></article></div></div></section>
+
+<section class="section" id="newsletter"><div class="wrap"><div class="panel reveal" style="max-width:46rem"><span class="eyebrow">Newsletter</span><h2 style="font-size:clamp(1.5rem,2.6vw,2rem)">A quarterly note, worth the inbox space</h2><p style="margin-top:.85rem">Four times a year I share what I am seeing in data, AI and technology leadership across financial services — considered, practical, and free of noise.</p><form class="nl-form" data-form novalidate><input class="input" name="email" type="email" required placeholder="you@company.com" aria-label="Email address" autocomplete="email"><button class="btn btn-primary" type="submit">Subscribe</button></form><p class="form-note">No spam, no sharing your details, and one-click unsubscribe.</p><div class="form-success" data-success>Thank you. Please check your inbox to confirm your subscription.</div></div></div></section>
+<section class="section"><div class="wrap"><div class="cta-band reveal"><h2>Advising senior teams on technology transformation.</h2><p>If you are weighing a decision on data, AI, cloud or enterprise architecture, I am glad to think it through with you.</p><a class="btn btn-primary" href="/contact.html">Get in touch <svg class="a" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></section>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<div class="footer-top">
+<div class="footer-brand">
+<a class="brand" href="/index.html"><span class="mono" aria-hidden="true">YK</span><span>Yuganshu Kathuria</span></a>
+<p>Technology and transformation leadership for financial institutions — data, AI, cloud and enterprise architecture. Based in Frankfurt.</p>
+</div>
+<div class="footer-col"><h4>Explore</h4>
+<a href="/about.html">About</a><a href="/perspectives.html">Perspectives</a>
+<a href="/experience.html">Experience</a><a href="/speaking.html">Speaking</a>
+<a href="/reading.html">Reading</a><a href="/search.html">Search</a></div>
+<div class="footer-col"><h4>Connect</h4>
+<a href="/contact.html">Contact</a><a href="mailto:contact@yuganshukathuria.com">Email</a>
+<a href="https://www.linkedin.com/in/yuganshukathuria" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+<a href="/index.html#newsletter">Newsletter</a><a href="/rss.xml">RSS feed</a></div>
+<div class="footer-col"><h4>Legal</h4>
+<a href="/privacy.html">Privacy</a><a href="/imprint.html">Imprint</a></div>
+</div>
+<div class="footer-bottom">
+<p class="disc">The views expressed on this website are my own and do not necessarily reflect those of any current or former employer or client.</p>
+<p class="copy">&copy; <span data-year>2026</span> Yuganshu Kathuria &middot; Frankfurt, Germany</p>
+</div></div></footer>
 </body>
 </html>
