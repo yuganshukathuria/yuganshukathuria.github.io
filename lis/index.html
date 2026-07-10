@@ -1,0 +1,514 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life In Syrup — Order Console (Prototype)</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    --ink:#141A44; --navy:#1E2761; --amber:#C8871E; --amber-d:#a86f14;
+    --plum:#6D2E46; --green:#2F7A57; --red:#B5462F;
+    --page:#EEF1F7; --card:#FFFFFF; --line:#DDE2EE; --mute:#6B7385; --text:#232735;
+    --code:#151B45; --codeln:#D7DEF3; --codekey:#E4A63A; --codestr:#9FD6B4;
+    --shadow:0 6px 22px rgba(20,26,68,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--page); color:var(--text);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif; margin:0}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 22px}
+  header{background:var(--ink); color:#fff; padding:18px 0 16px}
+  header .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .brand{display:flex; align-items:center; gap:12px}
+  .drop{width:34px;height:34px;border-radius:50% 50% 50% 4px; background:linear-gradient(150deg,var(--amber),#e6a63a); box-shadow:0 2px 8px rgba(200,135,30,.5)}
+  .brand b{font-family:Georgia,serif; font-size:20px; letter-spacing:.2px}
+  .brand span{display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#AEB7D6; margin-top:2px}
+  .tag{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); font-weight:700}
+  nav{display:flex; gap:8px; margin-top:2px}
+  .tab{background:transparent; border:1px solid #33407a; color:#C9D2EE; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px}
+  .tab.active{background:var(--amber); border-color:var(--amber); color:#231a05}
+  main{padding:26px 0 60px}
+  .grid{display:grid; grid-template-columns:1fr 60px 1fr; gap:14px; align-items:stretch}
+  @media(max-width:900px){ .grid{grid-template-columns:1fr} .arrowcol{transform:rotate(90deg)} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow)}
+  .pad{padding:18px}
+  .eyebrow{font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--plum)}
+  .muted{color:var(--mute)}
+  textarea{width:100%; min-height:230px; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+    font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif; color:var(--text); resize:vertical; background:#FBFCFE}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .btn{background:var(--amber); color:#231a05; border:none; padding:11px 18px; border-radius:9px; font-weight:800; cursor:pointer; font-size:15px}
+  .btn:hover{background:var(--amber-d); color:#fff}
+  .btn.ghost{background:#fff; color:var(--navy); border:1px solid var(--line); font-weight:700}
+  .btn.ghost:hover{background:#f3f5fb}
+  .btn:disabled{opacity:.5; cursor:default}
+  select{border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:13px; background:#fff; color:var(--text)}
+  .arrowcol{display:flex; align-items:center; justify-content:center}
+  .arrow{width:42px;height:42px;border-radius:50%; background:var(--amber); display:flex;align-items:center;justify-content:center; color:#231a05; font-size:22px; font-weight:900; box-shadow:0 3px 10px rgba(200,135,30,.4)}
+  .code{background:var(--code); border-radius:12px; padding:14px 16px; color:var(--codeln);
+    font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace; font-size:12.5px; line-height:1.5; white-space:pre-wrap; overflow:auto; min-height:230px}
+  .k{color:var(--codekey)} .s{color:var(--codestr)}
+  .empty{color:#8b93b8; font-style:italic; font-family:inherit}
+  .items{margin:8px 0 0; border-top:1px solid var(--line)}
+  .li{display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line)}
+  .sku{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:var(--navy); background:#EDF0F8; padding:2px 7px; border-radius:6px}
+  .li .nm{flex:1}
+  .li .q{font-weight:800; color:var(--ink)}
+  .li .amt{width:80px; text-align:right; color:var(--mute); font-variant-numeric:tabular-nums}
+  .warnrow{color:var(--red); font-weight:600}
+  .pill{display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border-radius:999px; font-weight:800; font-size:12.5px}
+  .pill.ok{background:#E7F3EC; color:var(--green)}
+  .pill.rev{background:#FBEEE6; color:var(--red)}
+  .ring{--p:0; width:88px;height:88px; border-radius:50%;
+    background:conic-gradient(var(--amber) calc(var(--p)*1%), #E7EAF3 0); display:flex;align-items:center;justify-content:center; transition:background .8s ease}
+  .ring .inner{width:66px;height:66px;border-radius:50%;background:#fff; display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring b{font-family:Georgia,serif; font-size:20px; color:var(--ink); line-height:1}
+  .ring small{font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--mute)}
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:0 0 18px}
+  .stat{background:var(--ink); color:#fff; border-radius:12px; padding:14px 16px}
+  .stat b{font-family:Georgia,serif; font-size:26px; display:block; line-height:1.1}
+  .stat span{font-size:11.5px; color:#AEB7D6; letter-spacing:.03em}
+  .stat.amber b{color:var(--amber)}
+  table{width:100%; border-collapse:collapse; font-size:13.5px}
+  th{ text-align:left; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); padding:8px 10px; border-bottom:2px solid var(--line)}
+  td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle}
+  tr.low td{background:#FCF4EE}
+  .badge{font-size:11.5px; font-weight:800; padding:3px 9px; border-radius:6px}
+  .badge.ok{background:#E7F3EC; color:var(--green)}
+  .badge.low{background:#F6E1D6; color:var(--red)}
+  .po{display:flex; gap:12px; align-items:center; padding:10px 12px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; background:#FBFCFE}
+  .po .ref{font-family:ui-monospace,monospace; font-size:12px; color:var(--navy); background:#EDF0F8; padding:2px 7px; border-radius:6px}
+  .po .it{flex:1; font-weight:700}
+  .po .qty{font-weight:800; color:var(--amber-d)}
+  .toast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:11px 18px; border-radius:10px; box-shadow:var(--shadow); font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none; z-index:50}
+  .toast.show{opacity:1}
+  .foot{margin-top:26px; font-size:12px; color:var(--mute); text-align:center}
+  .sectitle{display:flex; align-items:baseline; gap:12px; margin:0 0 14px}
+  .sectitle h2{font-size:22px; color:var(--ink)}
+  .hide{display:none}
+  .enginebar{display:flex; gap:8px; align-items:center; font-size:12.5px; color:var(--mute); margin-top:10px}
+  .switch{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden}
+  .switch button{border:none; background:#fff; padding:7px 12px; font-size:12.5px; font-weight:700; color:var(--navy); cursor:pointer}
+  .switch button.on{background:var(--navy); color:#fff}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="drop"></div>
+      <div><b>Life In Syrup</b><span>Order Console · pilot prototype</span></div>
+    </div>
+    <div style="text-align:right">
+      <div class="tag">Built by AMMY Advisory</div>
+      <nav>
+        <button class="tab active" id="tab-intake" onclick="show('intake')">Order intake</button>
+        <button class="tab" id="tab-inv" onclick="show('inv')">Inventory &amp; reorder</button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===== IMPACT STATS ===== -->
+  <div class="stats">
+    <div class="stat amber"><b id="st-orders">0</b><span>orders processed by the agent</span></div>
+    <div class="stat amber"><b id="st-time">0 min</b><span>admin time saved (≈9 min/order)</span></div>
+    <div class="stat"><b id="st-value">€0</b><span>order value captured</span></div>
+    <div class="stat"><b id="st-low" >11</b><span>materials below safety stock</span></div>
+  </div>
+
+  <!-- ===== TAB: INTAKE ===== -->
+  <section id="view-intake">
+    <div class="sectitle">
+      <h2>From inbox to booked order</h2>
+      <span class="muted">Paste a customer email (or pick a sample). The agent reads it, matches your SKUs, and drafts the order.</span>
+    </div>
+
+    <div class="grid">
+      <!-- email -->
+      <div class="card pad">
+        <div class="row" style="justify-content:space-between">
+          <div class="eyebrow">Inbound email</div>
+          <select id="sample" onchange="loadSample()">
+            <option value="0">Sample: Le Marais Hotel (clean)</option>
+            <option value="1">Sample: Nyugati Bistro (typos / shorthand)</option>
+            <option value="2">Sample: Soho House (unknown item → review)</option>
+            <option value="3">Sample: Café Central (mixed tone)</option>
+          </select>
+        </div>
+        <textarea id="email"></textarea>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="go" onclick="extract()">Read &amp; draft order</button>
+          <button class="btn ghost" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="enginebar">
+          Extraction engine:
+          <span class="switch">
+            <button id="eng-local" class="on" onclick="setEngine('local')">Built-in (offline)</button>
+            <button id="eng-ai" onclick="setEngine('ai')">Live AI</button>
+          </span>
+          <span id="engnote"></span>
+        </div>
+      </div>
+
+      <div class="arrowcol"><div class="arrow">→</div></div>
+
+      <!-- extracted -->
+      <div class="card pad">
+        <div class="row" style="justify-content:space-between; align-items:flex-start">
+          <div>
+            <div class="eyebrow">Structured order</div>
+            <div id="cust" style="font-family:Georgia,serif; font-size:18px; margin-top:6px; color:var(--ink)">—</div>
+            <div class="muted" id="meta" style="font-size:13px; margin-top:2px">Waiting for an email…</div>
+          </div>
+          <div class="ring" id="ring" style="--p:0"><div class="inner"><b id="conf">–</b><small>confidence</small></div></div>
+        </div>
+
+        <div id="items" class="items"></div>
+
+        <div class="row" style="justify-content:space-between; margin-top:12px">
+          <div id="route"></div>
+          <div style="font-family:Georgia,serif; font-size:20px; color:var(--ink)" id="total"></div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="post" onclick="postOrder()" disabled>Post to ERP</button>
+          <button class="btn ghost" onclick="showJson()" id="jsonbtn" disabled>View JSON</button>
+        </div>
+        <div id="jsonwrap" class="hide" style="margin-top:12px"><div class="code" id="json"></div></div>
+      </div>
+    </div>
+
+    <!-- log -->
+    <div class="card pad" style="margin-top:18px">
+      <div class="eyebrow">Booked orders (this session)</div>
+      <div id="log" class="muted" style="margin-top:8px; font-style:italic">No orders booked yet — process an email above.</div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: INVENTORY ===== -->
+  <section id="view-inv" class="hide">
+    <div class="sectitle">
+      <h2>Inventory &amp; automatic reorder</h2>
+      <span class="muted">Live raw-material stock. The nightly check drafts a purchase order for anything below safety stock.</span>
+    </div>
+    <div class="row" style="margin-bottom:14px">
+      <button class="btn" onclick="runReorder()">Run auto-reorder check</button>
+      <span class="muted" id="reordernote"></span>
+    </div>
+    <div class="grid" style="grid-template-columns:1.4fr 1fr; gap:16px">
+      <div class="card pad">
+        <div class="eyebrow">Raw materials</div>
+        <div style="max-height:430px; overflow:auto; margin-top:8px">
+          <table id="invtable"></table>
+        </div>
+      </div>
+      <div class="card pad">
+        <div class="eyebrow">Drafted purchase orders</div>
+        <div id="pos" class="muted" style="margin-top:10px; font-style:italic">Run the check to draft POs for at-risk materials.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">Life In Syrup — working prototype for a Frankfurt School course exercise (fictional case). Runs offline; sample data only.</div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- DATA: real Life In Syrup catalog ---------- */
+const CATALOG = [
+  {sku:"LIS-PRM-001", name:"Tokaj Furmint Grape & Thyme", price:12.5, kw:["furmint","grape & thyme","tokaj grape"], recipe:{"Furmint Grape Juice":70,"Sugar":20,"Thyme Extract":5,"Water":5}},
+  {sku:"LIS-SEA-001", name:"Balaton Lavender & Wild Honey", price:15.0, kw:["lavender","wild honey","balaton"], recipe:{"Lavender Infusion":60,"Wild Honey":30,"Lemon Juice":10}},
+  {sku:"LIS-BAR-001", name:"Smoked Plum & Cardamom", price:11.0, kw:["smoked plum","cardamom","plum"], recipe:{"Plum Puree":65,"Sugar":25,"Cardamom Extract":5,"Liquid Smoke":5}},
+  {sku:"LIS-PRM-002", name:"Sour Cherry & Dark Chocolate", price:13.5, kw:["sour cherry","dark chocolate","cherry","chocolate"], recipe:{"Sour Cherry Juice":60,"Sugar":25,"Cocoa Extract":10,"Water":5}},
+  {sku:"LIS-SEA-002", name:"Elderflower & Green Apple", price:9.5, kw:["elderflower","green apple","apple"], recipe:{"Elderflower Extract":40,"Apple Juice":40,"Sugar":15,"Citric Acid":5}},
+  {sku:"LIS-BAR-002", name:"Spicy Paprika & Mango", price:14.5, kw:["paprika","mango","spicy paprika"], recipe:{"Mango Puree":60,"Sugar":30,"Paprika Extract":5,"Lime Juice":5}},
+  {sku:"LIS-PRM-003", name:"Rosehip & Hibiscus", price:10.5, kw:["rosehip","hibiscus"], recipe:{"Rosehip Extract":50,"Hibiscus Infusion":30,"Sugar":20}},
+  {sku:"LIS-SEA-003", name:"Roasted Chestnut & Vanilla", price:16.5, kw:["chestnut","vanilla","roasted chestnut"], recipe:{"Chestnut Puree":50,"Sugar":35,"Vanilla Bean Extract":10,"Water":5}},
+  {sku:"LIS-BAR-003", name:"Quince & Rosemary", price:13.0, kw:["quince","rosemary"], recipe:{"Quince Juice":65,"Sugar":25,"Rosemary Extract":10}},
+  {sku:"LIS-PRM-004", name:"Apricot & Chamomile", price:12.0, kw:["apricot","chamomile"], recipe:{"Apricot Puree":65,"Sugar":25,"Chamomile Infusion":10}}
+];
+const DECOYS = ["raspberry","peach","caramel","hazelnut","ginger","blackberry","strawberry","orange","pineapple","coffee"];
+
+let INVENTORY = [
+  ["Furmint Grape Juice","Global Extracts Ltd.",500,400,14],["Sugar","Sweet Co.",1000,800,7],
+  ["Thyme Extract","Herb Suppliers Inc.",50,100,21],["Water","Aqua Pure",2000,1000,2],
+  ["Lavender Infusion","Floral Essences",150,200,14],["Wild Honey","Nature's Honey",80,100,10],
+  ["Lemon Juice","Citrus Farms",200,150,7],["Plum Puree","Fruit Purees LLC",300,200,14],
+  ["Cardamom Extract","Spice World",40,50,21],["Liquid Smoke","Flavor Tech",20,30,14],
+  ["Sour Cherry Juice","Berry Good Farms",250,200,14],["Cocoa Extract","Choco Supplies",100,150,21],
+  ["Elderflower Extract","Floral Essences",120,100,14],["Apple Juice","Orchard Fruits",400,300,7],
+  ["Citric Acid","Chemicals Direct",60,100,5],["Mango Puree","Tropical Purees",200,150,14],
+  ["Paprika Extract","Spice World",30,50,21],["Lime Juice","Citrus Farms",150,100,7],
+  ["Rosehip Extract","Berry Good Farms",180,150,14],["Hibiscus Infusion","Floral Essences",100,120,14],
+  ["Chestnut Puree","Nutty Farms",150,100,14],["Vanilla Bean Extract","Flavor Tech",45,50,21],
+  ["Quince Juice","Orchard Fruits",200,150,14],["Rosemary Extract","Herb Suppliers Inc.",60,50,21],
+  ["Apricot Puree","Fruit Purees LLC",250,200,14],["Chamomile Infusion","Floral Essences",90,100,14],
+  ["500ml Custom Glass Bottle","Glassworks Inc.",5000,2000,30]
+].map(r=>({item:r[0],supplier:r[1],stock:r[2],safety:r[3],lead:r[4]}));
+
+const SAMPLES = [
+`Subject: Order – Le Marais Boutique Hotel
+
+Hi, could we get our usual restock: 12 bottles Elderflower & Green Apple, 6 Balaton Lavender & Wild Honey, and 4 Smoked Plum & Cardamom.
+Deliver to 14 Rue des Rosiers, Paris by next Friday. Invoice to accounts@lemarais...
+Merci, Camille`,
+`Subject: order pls
+
+hey! need for the bar: sour cherry choc x10, 8x quince rosemary and 6 paprika mango. also 4 rosehip hibiscus.
+send to Andrassy ut 12, Budapest asap. thx — Bence, Nyugati Bistro`,
+`Subject: Order – Soho House Budapest
+
+Good morning. Please prepare 9 Roasted Chestnut & Vanilla and 12 Apricot & Chamomile.
+We'd also like 6 of your Raspberry Basil syrup if available.
+Ship to Dob utca 45, Budapest, delivery next Thursday. Best, Procurement`,
+`Subject: Café Central weekly
+
+Bonjour, this week: 15 Tokaj Furmint Grape & Thyme, ten bottles Elderflower & Green Apple, and just 3 Spicy Paprika & Mango please.
+Deliver to Herrengasse 14, by 18 July. Danke!`
+];
+
+/* ---------- STATE ---------- */
+let engine="local", current=null, orders=[], drafted=[];
+const BASE_DATE = new Date(2026,6,10); // demo "today": 10 Jul 2026
+
+/* ---------- UI helpers ---------- */
+function $(id){return document.getElementById(id)}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2600)}
+function eur(n){return "€"+n.toLocaleString("en-US",{maximumFractionDigits:0})}
+function show(v){
+  $("view-intake").classList.toggle("hide",v!=="intake");
+  $("view-inv").classList.toggle("hide",v!=="inv");
+  $("tab-intake").classList.toggle("active",v==="intake");
+  $("tab-inv").classList.toggle("active",v==="inv");
+  if(v==="inv") renderInventory();
+}
+function setEngine(e){engine=e;$("eng-local").classList.toggle("on",e==="local");$("eng-ai").classList.toggle("on",e==="ai");
+  $("engnote").textContent = e==="ai" ? "calls a live model; falls back to built-in if unavailable" : "runs entirely on-device — no internet needed";}
+function loadSample(){$("email").value=SAMPLES[+$("sample").value]; }
+function clearAll(){$("email").value="";resetOutput();}
+function resetOutput(){current=null;$("cust").textContent="—";$("meta").textContent="Waiting for an email…";$("items").innerHTML="";
+  $("route").innerHTML="";$("total").textContent="";$("conf").textContent="–";$("ring").style.setProperty("--p",0);
+  $("post").disabled=true;$("jsonbtn").disabled=true;$("jsonwrap").classList.add("hide");}
+
+/* ---------- LOCAL EXTRACTOR ---------- */
+const UNITS=new Set(["bottles","bottle","btl","btls","units","unit","pcs","pieces","x","of","the","a","our","just","only","some","and"]);
+const NUMWORDS={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,eighteen:18,twenty:20};
+const PRODWORDS=new Set(); CATALOG.forEach(p=>p.name.toLowerCase().replace(/&/g," ").split(/\s+/).forEach(w=>{if(w) PRODWORDS.add(w);}));
+function findQty(text,pos){
+  const before=text.slice(Math.max(0,pos-48),pos);
+  const toks=before.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  for(let i=toks.length-1;i>=0;i--){
+    const t=toks[i];
+    if(/^\d+$/.test(t)) return parseInt(t);
+    let mm=t.match(/^(\d+)x$/i)||t.match(/^x(\d+)$/i); if(mm) return parseInt(mm[1]);
+    if(NUMWORDS[t]!=null) return NUMWORDS[t];
+    if(UNITS.has(t)||PRODWORDS.has(t)) continue;
+    break;
+  }
+  const after=text.slice(pos,pos+28).toLowerCase();
+  const m=after.match(/(?:x\s*)?(\d+)/);
+  if(m) return parseInt(m[1]);
+  return null;
+}
+function nextWeekday(name){
+  const days=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+  const idx=days.indexOf(name.toLowerCase()); if(idx<0) return null;
+  const d=new Date(BASE_DATE); let add=(idx-d.getDay()+7)%7; if(add===0) add=7; d.setDate(d.getDate()+add);
+  return d.toISOString().slice(0,10);
+}
+function parseDate(t){
+  let m=t.match(/next\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)/i);
+  if(m) return nextWeekday(m[1]);
+  m=t.match(/by\s+(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*/i);
+  if(m){const mo={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11}[m[2].toLowerCase().slice(0,3)];
+    return new Date(2026,mo,+m[1]).toISOString().slice(0,10);}
+  if(/asap/i.test(t)){const d=new Date(BASE_DATE);d.setDate(d.getDate()+2);return d.toISOString().slice(0,10);}
+  return null;
+}
+function parseCustomer(raw){
+  let m=raw.match(/subject:\s*(.+)/i);
+  let subj = m ? m[1].trim() : "";
+  subj = subj.replace(/^order\b\s*[–\-:]*/i,"").replace(/\b(weekly|order|please|pls|asap)\b/ig,"")
+             .replace(/\s{2,}/g," ").replace(/[–\-:,]+$/,"").trim();
+  if(subj.length>=3) return subj;
+  const lines=raw.split(/\n/).map(s=>s.trim()).filter(Boolean);
+  const last=lines[lines.length-1]||"";
+  m=last.match(/[—-]\s*[A-Za-z]+[,\s]+([A-Z][\w &''.]+)$/); if(m) return m[1].trim();
+  m=last.match(/,\s*([A-Z][\w &''.]+)$/); if(m) return m[1].trim();
+  return null;
+}
+function parseShipTo(t){
+  const m=t.match(/(?:deliver|delivery|ship|send)\s*(?:to)?\s*:?\s*([^\n.]+?)(?:\s+(?:by|asap|delivery|next)\b|[.\n])/i);
+  return m ? m[1].replace(/\s+/g," ").replace(/[,;:]+$/,"").trim() : null;
+}
+function localExtract(raw){
+  const t=raw.toLowerCase();
+  const items=[]; let usedPos=new Set();
+  CATALOG.forEach(p=>{
+    let pos=-1;
+    for(const k of p.kw){const i=t.indexOf(k); if(i>=0 && (pos<0||i<pos)) pos=i;}
+    if(pos>=0){
+      const qty=findQty(t,pos);
+      items.push({sku:p.sku,name:p.name,price:p.price,qty:qty});
+    }
+  });
+  // unknown / decoy detection
+  let unknown=[];
+  DECOYS.forEach(d=>{ if(t.includes(d)) unknown.push(d); });
+  // confidence
+  let conf=0.97;
+  items.forEach(it=>{ if(it.qty==null){conf-=0.14; it.qty=1; it.assumed=true;} });
+  if(items.length===0) conf=0.2;
+  conf-=unknown.length*0.18;
+  conf=Math.max(0.15,Math.min(0.99,conf));
+  return {
+    customer: parseCustomer(raw) || "Unknown — needs review",
+    items, unknown,
+    delivery_date: parseDate(t),
+    ship_to: parseShipTo(raw),
+    confidence: +conf.toFixed(2),
+    engine:"Built-in parser"
+  };
+}
+
+/* ---------- AI EXTRACTOR (optional) ---------- */
+async function aiExtract(raw){
+  const cat = CATALOG.map(p=>`${p.sku} = ${p.name} (€${p.price})`).join("\n");
+  const prompt =
+`You are the order-intake agent for Life In Syrup. Extract the order from this email.
+CATALOG (sku = name):
+${cat}
+
+Return ONLY strict JSON, no markdown, shape:
+{"customer":str,"items":[{"sku":str,"name":str,"qty":int}],"delivery_date":"YYYY-MM-DD or null","ship_to":str or null,"unknown":[str],"confidence":0..1}
+Rules: match each requested product to the closest catalog SKU. If a requested item is NOT in the catalog, add its name to "unknown" and lower confidence. Today is 2026-07-10.
+
+EMAIL:
+"""${raw}"""`;
+  const res = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:prompt}]})
+  });
+  const data = await res.json();
+  let txt = (data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("").trim();
+  txt = txt.replace(/```json|```/g,"").trim();
+  const o = JSON.parse(txt);
+  o.items = (o.items||[]).map(it=>{const c=CATALOG.find(p=>p.sku===it.sku)||CATALOG.find(p=>p.name===it.name);
+    return {sku:it.sku,name:it.name||(c&&c.name),price:c?c.price:0,qty:it.qty||1};});
+  o.engine="Live AI (Claude)"; o.unknown=o.unknown||[];
+  return o;
+}
+
+/* ---------- RUN EXTRACTION ---------- */
+async function extract(){
+  const raw=$("email").value.trim();
+  if(!raw){toast("Paste an email first, or pick a sample.");return;}
+  $("go").disabled=true; $("meta").textContent="Reading…";
+  try{
+    if(engine==="ai"){
+      try{ current=await aiExtract(raw); }
+      catch(e){ current=localExtract(raw); current.engine="Built-in (AI unavailable)"; toast("Live AI unavailable — used the built-in parser."); }
+    } else current=localExtract(raw);
+  }catch(e){ current=localExtract(raw); }
+  $("go").disabled=false;
+  renderOrder();
+}
+function renderOrder(){
+  const o=current;
+  $("cust").textContent=o.customer;
+  const bits=[];
+  if(o.delivery_date) bits.push("deliver "+o.delivery_date); else bits.push("no delivery date");
+  if(o.ship_to) bits.push(o.ship_to);
+  bits.push(o.engine);
+  $("meta").textContent=bits.join(" · ");
+  // items
+  let html=""; let total=0;
+  o.items.forEach(it=>{ const amt=it.qty*it.price; total+=amt;
+    html+=`<div class="li"><span class="sku">${it.sku}</span><span class="nm">${it.name}${it.assumed?' <span class="warnrow">(qty assumed)</span>':''}</span><span class="q">×${it.qty}</span><span class="amt">${eur(amt)}</span></div>`;
+  });
+  if(o.unknown&&o.unknown.length){ o.unknown.forEach(u=>{
+    html+=`<div class="li warnrow"><span class="sku" style="background:#F6E1D6;color:#B5462F">?</span><span class="nm">"${u}" — not in catalog</span><span class="q">flag</span><span class="amt">—</span></div>`;});}
+  if(o.items.length===0) html=`<div class="empty" style="padding:14px 0">No catalog products recognised — routed to human review.</div>`;
+  $("items").innerHTML=html;
+  $("total").textContent=total?("Order value  "+eur(total)):"";
+  // confidence ring
+  const pct=Math.round(o.confidence*100);
+  setTimeout(()=>$("ring").style.setProperty("--p",pct),50);
+  $("conf").textContent=pct+"%";
+  // routing
+  const auto = o.confidence>=0.90 && o.items.length>0 && (!o.unknown||o.unknown.length===0);
+  $("route").innerHTML = auto
+    ? `<span class="pill ok">● Auto-book — confidence ≥ 90%</span>`
+    : `<span class="pill rev">● Human review — check flagged items</span>`;
+  current._auto=auto; current._total=total;
+  $("post").disabled=false; $("jsonbtn").disabled=false;
+  $("post").textContent = auto ? "Post to ERP" : "Send to review queue";
+  $("jsonwrap").classList.add("hide");
+}
+function showJson(){
+  const o=current; const j={customer:o.customer,items:o.items.map(i=>({sku:i.sku,name:i.name,qty:i.qty})),
+    delivery_date:o.delivery_date,ship_to:o.ship_to,unknown:o.unknown||[],confidence:o.confidence};
+  const s=JSON.stringify(j,null,2)
+    .replace(/"([^"]+)":/g,'<span class="k">"$1"</span>:')
+    .replace(/: "([^"]*)"/g,': <span class="s">"$1"</span>');
+  $("json").innerHTML=s; $("jsonwrap").classList.toggle("hide");
+}
+function postOrder(){
+  const o=current; if(!o) return;
+  const ref="LIS-"+ (2026) +"-"+String(30000+orders.length+1);
+  orders.push({ref,cust:o.customer,total:o._total,auto:o._auto});
+  // deduct raw materials by recipe (0.5L per bottle)
+  o.items.forEach(it=>{ const c=CATALOG.find(p=>p.sku===it.sku); if(!c) return;
+    const litres=it.qty*0.5;
+    for(const [comp,pct] of Object.entries(c.recipe)){ const inv=INVENTORY.find(r=>r.item===comp); if(inv) inv.stock=Math.max(0,+(inv.stock-litres*pct/100).toFixed(1)); }
+    const bottle=INVENTORY.find(r=>/bottle/i.test(r.item)); if(bottle) bottle.stock=Math.max(0,bottle.stock-it.qty);
+  });
+  updateStats();
+  renderLog();
+  toast(o._auto ? "Order booked to ERP: "+ref : "Order sent to review queue: "+ref);
+  resetOutput();
+}
+function renderLog(){
+  if(!orders.length){$("log").innerHTML="No orders booked yet — process an email above.";return;}
+  $("log").style.fontStyle="normal";
+  $("log").innerHTML = orders.slice().reverse().map(o=>
+    `<div class="li"><span class="sku">${o.ref}</span><span class="nm">${o.cust}</span>
+     <span class="q">${o.auto?'<span class="badge ok">auto</span>':'<span class="badge low">review</span>'}</span>
+     <span class="amt">${eur(o.total)}</span></div>`).join("");
+}
+function updateStats(){
+  $("st-orders").textContent=orders.length;
+  $("st-time").textContent=(orders.length*9)+" min";
+  $("st-value").textContent=eur(orders.reduce((a,o)=>a+o.total,0));
+  $("st-low").textContent=INVENTORY.filter(r=>!/bottle/i.test(r.item)&&r.stock<r.safety).length;
+}
+
+/* ---------- INVENTORY ---------- */
+function renderInventory(){
+  let h=`<tr><th>Material</th><th>Supplier</th><th>Stock</th><th>Safety</th><th>Lead</th><th>Status</th></tr>`;
+  INVENTORY.forEach(r=>{ const low=r.stock<r.safety;
+    h+=`<tr class="${low?'low':''}"><td>${r.item}</td><td class="muted">${r.supplier}</td>
+      <td>${r.stock}</td><td>${r.safety}</td><td>${r.lead}d</td>
+      <td>${low?'<span class="badge low">LOW</span>':'<span class="badge ok">OK</span>'}</td></tr>`;});
+  $("invtable").innerHTML=h;
+  updateStats();
+}
+function runReorder(){
+  drafted=[];
+  INVENTORY.filter(r=>r.stock<r.safety).forEach((r,i)=>{
+    const qty=Math.round(r.safety*2 - r.stock);
+    drafted.push({ref:"PO-"+String(4500+i+1),item:r.item,supplier:r.supplier,qty,lead:r.lead});
+  });
+  const box=$("pos");
+  if(!drafted.length){box.innerHTML="All materials at or above safety stock — nothing to reorder.";box.style.fontStyle="italic";return;}
+  box.style.fontStyle="normal";
+  box.innerHTML=drafted.map(p=>`<div class="po"><span class="ref">${p.ref}</span>
+    <span class="it">${p.item}<div class="muted" style="font-weight:400;font-size:12px">${p.supplier} · ${p.lead}-day lead</div></span>
+    <span class="qty">order ${p.qty}</span></div>`).join("");
+  $("reordernote").textContent=drafted.length+" PO(s) drafted automatically — awaiting one-click approval.";
+  toast(drafted.length+" purchase orders drafted.");
+}
+
+/* ---------- INIT ---------- */
+loadSample(); setEngine("local"); updateStats();
+</script>
