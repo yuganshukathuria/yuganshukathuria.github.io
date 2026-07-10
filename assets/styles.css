@@ -178,7 +178,7 @@ a.card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);transfor
 .stack .sub{color:var(--muted);font-size:.9rem;margin-top:.15rem}
 .stack .v{color:var(--body);font-size:.98rem}
 
-/* ---------- callout / newsletter / cta ---------- */
+/* ---------- callout / panel / cta ---------- */
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:clamp(1.8rem,4vw,3rem)}
 .cta-band{background:var(--ink);border-radius:var(--radius);padding:clamp(2.2rem,5vw,3.6rem);color:#fff}
